@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
-// import { signIn, signUpProvider, forgotPassword } from "../auth/firebase";
-
+import { useHistory } from "react-router-dom";
+import { signIn, signUpProvider, forgotPassword } from "../auth/firebase";
 
 const Login = () => {
-  // const history = useHistory();
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = () => {
-    // const user = { email, password };
-    // signIn(user.email, user.password);
-    // history.push("/");
+    const user = { email, password };
+    signIn(user.email, user.password);
+    history.push("/");
   };
-  // const handleProviderLogin = () => {
-  //   signUpProvider();
-  //   history.push("/");
-  // };
+
+  const handleProviderLogin = () => {
+    signUpProvider();
+    history.push("/");
+  };
+
   return (
     <div className="register">
       <div className="form-image">
@@ -47,9 +49,9 @@ const Login = () => {
               placeholder="Enter your password..."
               onChange={(e) => setPassword(e.target.value)}
             />
-            {/* <div classNameName="link" onClick={() => forgotPassword(email)}>
+            <div classNameName="link" onClick={() => forgotPassword(email)}>
               Forgot password?
-            </div> */}
+            </div>
           </div>
           <input
             type="button"
@@ -60,7 +62,7 @@ const Login = () => {
         </form>
         <button
           className="btn btn-primary form-control"
-          // onClick={handleProviderLogin}
+          onClick={handleProviderLogin}
         >
           Continue with Google
         </button>
@@ -68,4 +70,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

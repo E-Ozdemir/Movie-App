@@ -1,19 +1,16 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
-// kendi firebase imizi yapistiracagiz
 const firebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyASvNYu7hmfDjz27Z8MzefY-_90urHQ8tU",
-    authDomain: "movie-app-54485.firebaseapp.com",
-    projectId: "movie-app-54485",
-    storageBucket: "movie-app-54485.appspot.com",
-    messagingSenderId: "205041907337",
-    appId: "1:205041907337:web:4bad096362dbc71b997858"
+  apiKey: "AIzaSyASvNYu7hmfDjz27Z8MzefY-_90urHQ8tU",
+  authDomain: "movie-app-54485.firebaseapp.com",
+  projectId: "movie-app-54485",
+  storageBucket: "movie-app-54485.appspot.com",
+  messagingSenderId: "205041907337",
+  appId: "1:205041907337:web:4bad096362dbc71b997858"
 });
 
-
-// user create
 export const createUser = async (email, password, displayName) => {
   try {
     await firebase
@@ -30,9 +27,9 @@ export const createUser = async (email, password, displayName) => {
         // ..
       });
 
-
     const currentUser = firebase.auth().currentUser;
     await currentUser.updateProfile({ displayName });
+    alert(currentUser);
   } catch (error) {
     alert(
       "There exists an account with this email. Please login with your password or continue with Google!"
@@ -56,30 +53,31 @@ export const signIn = (email, password) => {
     });
 };
 
-// sign-out
 export const signOut = () => {
   firebase.auth().signOut();
 };
 
+export const userObserver = async (setCurrentUser) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      setCurrentUser(user);
+    } else {
+      // User is signed out
+      setCurrentUser(null);
+    }
+  });
+};
 
+export const signUpProvider = () => {
+  var provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+  firebase.auth().signInWithPopup(provider);
+};
 
-// export const userObserver = async (setCurrentUser) => {
-//   firebase.auth().onAuthStateChanged((user) => {
-//     if (user) {
-//       setCurrentUser(user);
-//     } else {
-//       // User is signed out
-//       setCurrentUser(null);
-//     }
-//   });
-// };
-// export const signUpProvider = () => {
-//   var provider = new firebase.auth.GoogleAuthProvider();
-//   provider.setCustomParameters({ prompt: "select_account" });
-//   firebase.auth().signInWithPopup(provider);
-// };
-// export const forgotPassword = (email) => {
-//   firebase.auth().sendPasswordResetEmail(email);
-//   alert("Please check your mail box!");
-// };
-// export default firebaseApp;
+export const forgotPassword = (email) => {
+  firebase.auth().sendPasswordResetEmail(email);
+
+  alert("Please check your mail box!");
+};
+
+export default firebaseApp;

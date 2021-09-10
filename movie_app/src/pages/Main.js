@@ -3,18 +3,21 @@ import Movie from "../components/Movie";
 import { AuthContext } from "../context/AuthContext";
 
 const FEATURED_API =
-  "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1";
+  "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=16db824744d255563ba1fa5ac82c60c7&page=1";
 // const IMG_API = "https://image.tmdb.org/t/p/w1280";
 const SEARCH_API =
-  "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
+  "https://api.themoviedb.org/3/search/movie?&api_key=16db824744d255563ba1fa5ac82c60c7&query=";
+
 function App() {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
     getMovies(FEATURED_API);
     //console.log("API_KEY: ", process.env.REACT_APP_API_KEY);
   }, []);
+
   const getMovies = (API) => {
     fetch(API)
       .then((res) => res.json())
@@ -22,23 +25,25 @@ function App() {
         setMovies(data.results);
       });
   };
+
   const handleOnChange = (e) => {
     setSearchTerm(e.target.value);
-    // her kelime girdigimde esestate yapisiyla girilen yeni deger kaydediliyor ve value artik o deger oluyor.
   };
+
   const handleSearch = (e) => {
     e.preventDefault();
+
     if (searchTerm && currentUser) {
-      getMovies(SEARCH_API + searchTerm); {/*aramayi yaptigimiz satir*/}
+      getMovies(SEARCH_API + searchTerm);
       setSearchTerm("");
     } else {
       alert("Please login to search a movie!");
     }
   };
+
   return (
     <>
       <form className="search" onSubmit={handleSearch}>
-          {/* onSubmit eklememizin sebebiher kelimede search etmesin ben search e bastigimda arama yapsin diye */}
         <input
           className="search-input"
           type="search"
@@ -53,4 +58,5 @@ function App() {
     </>
   );
 }
+
 export default App;

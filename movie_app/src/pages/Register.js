@@ -8,16 +8,21 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const handleSubmit = () => {
     const user = {firstName, lastName, email, password};
     const displayName = `${firstName} ${lastName}`;
     createUser(user.email, user.password, displayName);
     history.push('/');
   }
-  // const handleProviderRegister = () => {
-  //   signUpProvider();
-  //   history.push('/');
-  // }
+
+  const handleProviderRegister = () => {
+    signUpProvider();
+    history.push('/');
+  }
+
+
+
   return (
     <div className="register">
       <div className="form-image">
@@ -44,11 +49,10 @@ const Register = () => {
           </div>
           <input type="button" class="btn btn-primary form-control" value="Register" onClick={handleSubmit} />
         </form>
-        <button class="btn btn-primary form-control" 
-        // onClick={handleProviderRegister}
-        >Continue with Google</button>
+        <button class="btn btn-primary form-control" onClick={handleProviderRegister}>Continue with Google</button>
       </div>
     </div>
   );
 };
+
 export default Register;

@@ -1,69 +1,34 @@
-import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
-// import { signIn, signUpProvider, forgotPassword } from "../auth/firebase";
-const Login = () => {
-  // const history = useHistory();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleSubmit = () => {
-    // const user = { email, password };
-    // signIn(user.email, user.password);
-    // history.push("/");
-  };
-  // const handleProviderLogin = () => {
-  //   signUpProvider();
-  //   history.push("/");
-  // };
-  return (
-    <div className="register">
-      <div className="form-image">
-        <img src={"https://picsum.photos/1200/900"} alt="sample-movie" />
-      </div>
-      <div className="register-form">
-        <h1 className="form-title display-3">Login</h1>
-        <form id="login">
-          <div className="mb-3">
-            <label for="email" className="form-label display-4">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter your email address..."
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label for="password" className="form-label display-4">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Enter your password..."
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {/* <div classNameName="link" onClick={() => forgotPassword(email)}>
-              Forgot password?
-            </div> */}
-          </div>
-          <input
-            type="button"
-            className="btn btn-primary form-control"
-            value="Login"
-            onClick={handleSubmit}
-          />
-        </form>
-        <button
-          className="btn btn-primary form-control"
-          // onClick={handleProviderLogin}
-        >
-          Continue with Google
-        </button>
-      </div>
+import React, {useContext} from "react";
+import { AuthContext } from "../context/AuthContext";
+
+const IMG_API = "https://image.tmdb.org/t/p/w1280";
+
+const setVoteClass = (vote) => {
+    if (vote >= 8){
+        return "green";
+    } else if (vote >= 6){
+        return "orange";
+    } else {
+        return "red";
+    }
+}
+
+const Movie = ({title, poster_path, overview, vote_average}) => {
+    const { currentUser } = useContext(AuthContext);
+
+    return (
+    <div className="movie">
+        <img src={poster_path ? (IMG_API + poster_path) : "https://images.unsplash.com/photo-1581905764498-f1b60bae941a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"} alt={title} />
+        <div className="movie-info">
+            <h3>{title}</h3>
+            {currentUser && <span className={`tag ${setVoteClass(vote_average)}`}>{vote_average}</span>}
+        </div>
+
+        <div className="movie-over">
+            <h2>Overview:</h2>
+            <p>{overview}</p>
+        </div>
     </div>
-  );
-};
-export default Login;
+)};
+
+export default Movie;
