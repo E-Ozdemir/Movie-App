@@ -20,9 +20,9 @@ const Login = () => {
 
   return (
     <div className="register">
-      <div className="form-image">
+      {/* <div className="form-image">
         <img src={"https://picsum.photos/1200/900"} alt="sample-movie" />
-      </div>
+      </div> */}
       <div className="register-form">
         <h1 className="form-title display-3">Login</h1>
         <form id="login">
